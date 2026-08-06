@@ -52,7 +52,9 @@ src/
 │   ├── oferta.astro              # публичная оферта
 │   ├── politika.astro            # политика конфиденциальности
 │   ├── rekvizity.astro           # реквизиты
-│   ├── oplata/                   # оплата + uspekh/oshibka (noindex)
+│   ├── oplata/                   # способы оплаты и возврат
+│   ├── thanks.astro              # успешная оплата (noindex)
+│   ├── errorpay.astro            # ошибка оплаты (noindex)
 │   └── 404.astro
 └── styles/global.css             # дизайн-токены и базовые стили
 
@@ -90,7 +92,7 @@ public/
 
 ### Онлайн-оплата
 `paymentUrl: 'https://intellect.tvoyklass.com'` — личный кабинет TvoyKlass.
-Используется только на странице `/oplata`. Return-страницы: `/oplata/uspekh`, `/oplata/oshibka`.
+Используется только на странице `/oplata`. Return-страницы: `/thanks`, `/errorpay`.
 
 ### Расписание
 Расписание подбирается администратором при записи — виджет интеграции не используется.

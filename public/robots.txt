@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /oplata/uspekh
-Disallow: /oplata/oshibka
+Disallow: /thanks
+Disallow: /errorpay
 
 Host: https://intellect-deti.ru
 Sitemap: https://intellect-deti.ru/sitemap-index.xml

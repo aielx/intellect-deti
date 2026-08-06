@@ -13,7 +13,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Return-страницы оплаты исключены из индексации (robots.txt) — не кладём их и в sitemap.
-      filter: (page) => !page.includes('/oplata/uspekh') && !page.includes('/oplata/oshibka'),
+      filter: (page) => !page.includes('/thanks') && !page.includes('/errorpay'),
     }),
   ],
   build: {
