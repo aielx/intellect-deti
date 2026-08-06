@@ -1,0 +1,23 @@
+# Сборка
+dist/
+.astro/
+
+# Зависимости
+node_modules/
+
+# Исходные фото (обрабатываются скриптом optimize-images.mjs → public/images)
+intellect/
+
+# Окружение
+.env
+.env.*
+!.env.example
+
+# OS/IDE
+.DS_Store
+*.log
+.worktrees/
+worktrees/
+
+# ZCode agent workspace
+.zcode/

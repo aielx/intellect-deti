@@ -1,0 +1,55 @@
+---
+const stats = [
+  { value: 1000, suffix: '+', label: 'Учеников за 15 лет' },
+  { value: 40, suffix: '', label: 'Направлений обучения' },
+  { value: 15, suffix: '', label: 'Лет успешного опыта' },
+  { value: 4.9, decimals: 1, label: 'Рейтинг на Яндекс.Картах' },
+];
+---
+<section class="section stats">
+  <div class="container">
+    <div class="stats__grid">
+      {stats.map((s) => (
+        <div class="stats__item">
+          <div class="stats__value">
+            <span data-count={s.value} data-decimals={s.decimals ?? 0}>{s.value}</span>{s.suffix}
+          </div>
+          <div class="stats__label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: clamp(28px, 4vw, 44px);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+  .stats__item { text-align: center; }
+  .stats__value {
+    font-size: clamp(28px, 4.4vw, 42px);
+    font-weight: 800;
+    line-height: 1;
+    background: var(--grad-teal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.02em;
+  }
+  .stats__label {
+    margin-top: 10px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  @media (max-width: 720px) {
+    .stats__grid { grid-template-columns: repeat(2, 1fr); gap: 28px 20px; }
+  }
+</style>

@@ -1,0 +1,34 @@
+---
+// Плавающая кнопка «Наверх» — появляется после прокрутки.
+---
+<button class="to-top" type="button" data-back-to-top hidden aria-label="Наверх">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<style>
+  .to-top {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 80;
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--indigo);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .to-top.is-show { opacity: 1; transform: none; }
+  .to-top:hover { background: var(--tint); }
+  @media (max-width: 720px) {
+    .to-top { bottom: 78px; right: 16px; width: 44px; height: 44px; }
+  }
+</style>

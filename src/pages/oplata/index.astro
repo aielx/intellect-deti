@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import StickyCta from '../../components/StickyCta.astro';
+import BackToTop from '../../components/BackToTop.astro';
+import { site } from '../../content/site';
+
+const steps = [
+  { n: 1, title: 'Оставьте заявку или позвоните', text: 'Согласуйте с администратором направление, формат и количество занятий.' },
+  { n: 2, title: 'Получите ссылку на оплату', text: `Администратор пришлёт ссылку на оплату онлайн через ${site.paymentProvider} или в личном кабинете.` },
+  { n: 3, title: 'Оплатите картой', text: 'МИР, Visa, MasterCard или JCB. После оплаты вы получите подтверждение, а занятия можно будет посещать.' },
+];
+---
+<BaseLayout title="Оплата и возврат — Интеллект" description="Как оплатить занятия в образовательном центре «Интеллект»: онлайн-оплата, способы, условия возврата." path="/oplata">
+  <Header />
+  <main id="main" class="section">
+    <div class="container">
+      <article class="legal">
+        <h1>Оплата и возврат</h1>
+
+        <h2>Способы оплаты</h2>
+        <p>Оплата занятий производится онлайн через {site.paymentProvider}. Принимаются банковские карты:</p>
+        <div class="ps">
+          <span class="ps__logo ps__logo--mir">МИР</span>
+          <span class="ps__logo ps__logo--visa">VISA</span>
+          <span class="ps__logo ps__logo--mc">MC</span>
+          <span class="ps__logo ps__logo--jcb">JCB</span>
+        </div>
+        <p style="margin-top:16px"><a class="btn btn--primary" href={site.paymentUrl} target="_blank" rel="noopener" data-goal="cta_pay">Перейти к оплате</a></p>
+
+        <h2>Как это работает</h2>
+        <ol>
+          {steps.map((s) => <li><strong>{s.n}. {s.title}.</strong> {s.text}</li>)}
+        </ol>
+
+        <h2>Условия возврата</h2>
+        <ul>
+          <li>Возврат средств производится в течение <strong>30 календарных дней</strong> с момента получения письменного заявления Заказчика.</li>
+          <li>Возврат осуществляется на ту же банковскую карту, с которой был произведён платёж.</li>
+          <li>Стоимость фактически оказанных услуг (посещённых занятий) возврату не подлежит.</li>
+          <li>Для оформления возврата напишите на {site.email} или позвоните {site.phoneDisplay}.</li>
+        </ul>
+
+        <h2>Возврат после успешной оплаты</h2>
+        <p>Если вы оплатили занятия и хотите оформить возврат, свяжитесь с нами удобным способом — мы поможем оформить заявление.</p>
+
+        <p><a href="/oferta">→ Публичная оферта</a> · <a href="/rekvizity">Реквизиты</a></p>
+      </article>
+    </div>
+  </main>
+  <Footer />
+  <StickyCta />
+  <BackToTop />
+  <script define:vars={{ leadWebhook: site.leadWebhook, metricaId: site.metricaId }}>
+    window.__leadWebhook = leadWebhook;
+    window.__metricaId = metricaId;
+  </script>
+</BaseLayout>

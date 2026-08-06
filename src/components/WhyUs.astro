@@ -1,0 +1,95 @@
+---
+import Photo from './Photo.astro';
+
+const reasons = [
+  { icon: '🎯', title: 'Разные направления', text: 'Более 40 программ — каждый ребёнок найдёт занятие по душе и способностям.' },
+  { icon: '🧩', title: 'Интересные активности', text: 'Настольные игры, подвижные переменки, командные проекты и квесты между уроками.' },
+  { icon: '🏫', title: 'Оборудованные классы', text: 'Телевизоры, компьютеры, камеры наблюдения и учебные материалы в каждом классе.' },
+  { icon: '🎉', title: 'Мероприятия', text: 'Вместе празднуем Новый год, Хэллоуин и проводим тематические мастер-классы.' },
+  { icon: '👩‍🏫', title: 'Квалифицированные педагоги', text: 'Работаем с теми, кто любит своё дело и является профессионалом в нём.' },
+  { icon: '🤝', title: 'Дружелюбная атмосфера', text: 'Поддерживаем домашнюю обстановку на занятиях, но следим за дисциплиной.' },
+];
+
+// 9 фото атмосферы для горизонтальной галереи.
+const gallery = [
+  'atmosphere-pizza-class',
+  'english-teens-laughing',
+  'it-boy-laptop',
+  'games-chess-boys',
+  'art-group-paintings',
+  'games-maze-girls',
+  'english-finger-puppets',
+  'atmosphere-girls-playroom',
+  'art-kid-floor-painting',
+];
+---
+<section class="section section--warm" id="why">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Почему мы</span>
+      <h2>Почему родители выбирают «Интеллект»</h2>
+      <p class="lead">15 лет опыта, сильная команда педагогов и атмосфера, в которой детям хочется учиться.</p>
+    </div>
+
+    <div class="why__grid">
+      {reasons.map((r, i) => (
+        <div class:list={['why__item', 'reveal']} style={`transition-delay: ${(i % 3) * 60}ms`}>
+          <div class="why__icon">{r.icon}</div>
+          <h3>{r.title}</h3>
+          <p>{r.text}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="why__gallery" tabindex="0" role="region" aria-label="Фотогалерея центра — листайте горизонтально">
+      {gallery.map((name) => (
+        <Photo name={name} ratio="3 / 4" sizes="(max-width: 720px) 60vw, 320px" class="why__shot" />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .why__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .why__item {
+    padding: 26px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .why__icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    border-radius: 16px;
+    background: var(--tint);
+    margin-bottom: 16px;
+  }
+  .why__item h3 { font-size: 18px; margin-bottom: 8px; }
+  .why__item p { font-size: 14.5px; color: var(--muted); }
+
+  .why__gallery {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(220px, 1fr);
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 6px 4px 16px;
+    margin-top: clamp(32px, 5vw, 48px);
+  }
+  .why__gallery :global(.why__shot) {
+    scroll-snap-align: start;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  @media (max-width: 980px) { .why__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .why__grid { grid-template-columns: 1fr; } }
+</style>

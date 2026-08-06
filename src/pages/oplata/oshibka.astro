@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { site } from '../../content/site';
+// Страница ошибки оплаты — не индексируется (robots.txt + noindex).
+---
+<BaseLayout title="Ошибка оплаты — Интеллект" description="Не удалось завершить платёж. Попробуйте снова или свяжитесь с нами." path="/oplata/oshibka">
+  <meta name="robots" content="noindex, nofollow" slot="head" />
+  <Header />
+  <main id="main" class="section">
+    <div class="container">
+      <article class="legal" style="text-align:center">
+        <div style="font-size:64px; margin-bottom:16px">😕</div>
+        <h1>Не получилось завершить оплату</h1>
+        <p>Платёж не прошёл. Проверьте данные карты и попробуйте снова, либо свяжитесь с нами — поможем разобраться.</p>
+        <p style="margin-top:24px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap">
+          <a class="btn btn--primary" href={site.paymentUrl} target="_blank" rel="noopener" data-goal="cta_pay">Попробовать снова</a>
+          <a class="btn btn--outline" href={site.phoneHref} data-goal="phone">{site.phoneDisplay}</a>
+        </p>
+      </article>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

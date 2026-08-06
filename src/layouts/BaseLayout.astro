@@ -1,0 +1,139 @@
+---
+import '../styles/global.css';
+import { site } from '../content/site';
+import CookieNotice from '../components/CookieNotice.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Путь страницы для canonical, например '/' или '/avatar' */
+  path?: string;
+  /** Дополнительный JSON-LD (FAQPage, Review) — вставляется в <head> */
+  jsonLdExtra?: object | object[];
+}
+
+const { title, description, path = '/', jsonLdExtra } = Astro.props;
+const canonical = new URL(path, Astro.site ?? 'https://intellect-deti.ru').href;
+const ogImage = new URL('/images/og-image.jpg', Astro.site ?? 'https://intellect-deti.ru').href;
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['EducationalOrganization', 'LocalBusiness'],
+  name: 'Образовательный центр «Интеллект»',
+  alternateName: 'Интеллект',
+  description:
+    'Образовательный центр в Ликино-Дулёво с 15-летним опытом. 40+ направлений для детей 2–17 лет: подготовка к школе, ОГЭ/ЕГЭ, ИТ-школа, английский, логопед, психолог, творческие мастерские.',
+  url: canonical,
+  telephone: '+79800010525',
+  email: site.email,
+  foundingDate: '2009',
+  priceRange: '₽₽',
+  image: ogImage,
+  address: site.branches.map((b) => ({
+    '@type': 'PostalAddress',
+    name: b.name,
+    streetAddress: b.address.replace('г. Ликино-Дулёво, ', ''),
+    addressLocality: 'Ликино-Дулёво',
+    addressRegion: 'Московская область',
+    postalCode: '142670',
+    addressCountry: 'RU',
+  })),
+  geo: { '@type': 'GeoCoordinates', latitude: '55.7108', longitude: '38.9539' },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '14:00',
+      closes: '20:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Saturday', 'Sunday'],
+      opens: '10:00',
+      closes: '18:00',
+    },
+  ],
+  sameAs: [site.vk, site.yandexProfile],
+};
+
+const jsonLd = [orgSchema, ...(jsonLdExtra ? (Array.isArray(jsonLdExtra) ? jsonLdExtra : [jsonLdExtra]) : [])];
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Интеллект" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="ru_RU" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="theme-color" content="#312E81" />
+    <meta name="color-scheme" content="light" />
+    <meta name="apple-mobile-web-app-title" content="Интеллект" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/brand/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/brand/icon-512.png" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon-180.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link rel="preload" href="/fonts/onest-cyrillic-700-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/onest-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+    {site.metricaId && <link rel="preconnect" href="https://mc.yandex.ru" crossorigin />}
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    {site.metricaId && (
+      <Fragment set:html={`<!-- Yandex.Metrika counter -->
+        <script type="text/javascript">
+          (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+          })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=${site.metricaId}', 'ym');
+          ym(${site.metricaId}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+        </script>
+        <noscript><div><img src="https://mc.yandex.ru/watch/${site.metricaId}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->`} />
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти к содержимому</a>
+    <slot />
+    <CookieNotice />
+    <script src="/js/main.js" type="module"></script>
+    <noscript>
+      <style>
+        /* Без JS раскрываем мобильное меню (бургер неработоспособен) */
+        @media (max-width: 1080px) {
+          .header__menu {
+            display: flex !important;
+            position: static !important;
+            flex-direction: column;
+            gap: 2px;
+            padding: 8px 0 4px !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border: 0 !important;
+          }
+          .header__burger { display: none !important; }
+        }
+        /* Кнопки, открывающие только модалку через JS, без JS прячем */
+        [data-open-lead] { display: none !important; }
+        .reveal { opacity: 1 !important; transform: none !important; }
+      </style>
+    </noscript>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyCta from '../components/StickyCta.astro';
+import BackToTop from '../components/BackToTop.astro';
+import { site } from '../content/site';
+
+const { entity, inn, ogrnip, legalAddress, checkingAccount, bankName, bik, corrAccount } = site.legal;
+---
+<BaseLayout title="Реквизиты — Интеллект" description="Реквизиты образовательного центра «Интеллект» для оплаты и документооборота." path="/rekvizity">
+  <Header />
+  <main id="main" class="section">
+    <div class="container">
+      <article class="legal">
+        <h1>Реквизиты</h1>
+        <ul>
+          <li><strong>{entity}</strong></li>
+          <li>{inn}</li>
+          <li>{ogrnip}</li>
+          <li>Юридический адрес: {legalAddress}</li>
+          {checkingAccount && <li>Расчётный счёт: {checkingAccount}</li>}
+          {bankName && <li>Банк: {bankName}</li>}
+          {bik && <li>БИК: {bik}</li>}
+          {corrAccount && <li>Корреспондентский счёт: {corrAccount}</li>}
+          <li>Телефон: {site.phoneDisplay}</li>
+          <li>E-mail: {site.email}</li>
+        </ul>
+
+        <h2>Филиалы</h2>
+        {site.branches.map((b) => (
+          <p><strong>{b.name}.</strong> {b.address}</p>
+        ))}
+
+        <p style="margin-top:24px"><a href="/oplata">→ Как оплатить и вернуть</a> · <a href="/oferta">Публичная оферта</a></p>
+      </article>
+    </div>
+  </main>
+  <Footer />
+  <StickyCta />
+  <BackToTop />
+  <script define:vars={{ leadWebhook: site.leadWebhook, metricaId: site.metricaId }}>
+    window.__leadWebhook = leadWebhook;
+    window.__metricaId = metricaId;
+  </script>
+</BaseLayout>

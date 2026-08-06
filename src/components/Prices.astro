@@ -1,0 +1,69 @@
+---
+import { site } from '../content/site';
+
+// Ориентировочные цены — точная стоимость подбирается администратором под направление и формат.
+// Мелких примечаний с конкретными суммами намеренно нет — все цены только в этом блоке.
+const prices = [
+  { format: 'Групповое занятие', price: 'от 450 ₽', note: 'мини-группы' },
+  { format: 'Индивидуальное занятие', price: 'от 900 ₽', note: 'разовое посещение' },
+  { format: 'Абонемент на месяц', price: 'от 3 600 ₽', note: '8 групповых занятий' },
+  { format: 'Логопед / психолог', price: 'от 1 200 ₽', note: 'индивидуально' },
+];
+---
+<section class="section" id="prices">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <span class="kicker">Расписание и цены</span>
+      <h2>Понятные цены без сюрпризов</h2>
+      <p class="lead">Точное расписание и стоимость вашего направления уточнит администратор — напишите или оставьте заявку.</p>
+    </div>
+
+    <div class="prices__grid">
+      {prices.map((p, i) => (
+        <div class:list={['prices__card', 'card', 'reveal']} style={`transition-delay: ${i * 60}ms`}>
+          <h3>{p.format}</h3>
+          <p class="prices__value">{p.price}</p>
+          <p class="prices__note">{p.note}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="prices__cta">
+      <a class="btn btn--primary btn--lg" href={site.max} target="_blank" rel="noopener" data-goal="max">
+        Уточнить расписание в MAX
+      </a>
+      <button class="btn btn--outline btn--lg" type="button" data-open-lead data-goal="cta_signup">
+        Оставить заявку
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .prices__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .prices__card { padding: 26px; text-align: center; }
+  .prices__card h3 { font-size: 17px; }
+  .prices__value {
+    margin-top: 12px;
+    font-size: 30px;
+    font-weight: 800;
+    background: var(--grad-teal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .prices__note { margin-top: 8px; font-size: 14px; color: var(--muted); }
+  .prices__cta {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+  @media (max-width: 980px) { .prices__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .prices__grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,60 @@
+---
+import { faq } from '../content/faq';
+---
+<section class="section section--warm" id="faq">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <span class="kicker">Вопросы</span>
+      <h2>Частые вопросы</h2>
+    </div>
+
+    <div class="faq__list">
+      {faq.map((f) => (
+        <details class="faq__item">
+          <summary>{f.q}
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+          </summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__list {
+    max-width: 760px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .faq__item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .faq__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 22px;
+    font-weight: 700;
+    font-size: 17px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__icon { flex-shrink: 0; color: var(--teal); transition: transform 0.2s ease; }
+  .faq__item[open] .faq__icon { transform: rotate(45deg); }
+  .faq__item p {
+    padding: 0 22px 20px;
+    color: var(--muted);
+    font-size: 15.5px;
+  }
+</style>

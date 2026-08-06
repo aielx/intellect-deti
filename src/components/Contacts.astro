@@ -1,0 +1,94 @@
+---
+import { site } from '../content/site';
+---
+<section class="section" id="contacts">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Контакты</span>
+      <h2>Ждём вас и ваших детей</h2>
+    </div>
+
+    <div class="contacts__info">
+      <div class="contacts__row">
+        <h3>Телефон</h3>
+        <p><a href={site.phoneHref} data-goal="phone">{site.phoneDisplay}</a></p>
+      </div>
+      <div class="contacts__row">
+        <h3>Мессенджеры и почта</h3>
+        <p class="contacts__messengers">
+          <a href={site.max} target="_blank" rel="noopener" data-goal="max">MAX</a>
+          <a href={site.vk} target="_blank" rel="noopener" data-goal="vk">ВКонтакте</a>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+      </div>
+      <div class="contacts__row">
+        <h3>Часы работы</h3>
+        <p>{site.hours}</p>
+      </div>
+    </div>
+
+    <div class="contacts__branches">
+      {site.branches.map((b) => (
+        <div class="contacts__branch card">
+          <div class="contacts__branch-info">
+            <span class="contacts__branch-tag">{b.name}</span>
+            <h3>{b.address}</h3>
+            <a class="btn btn--outline" href={b.mapHref} target="_blank" rel="noopener">Построить маршрут →</a>
+          </div>
+          <div class="contacts__map">
+            <iframe
+              src={`https://yandex.ru/map-widget/v1/?z=16&ol=biz&oid=${b.yandexOid}`}
+              title={`${b.name}: ${b.address}`}
+              loading="lazy"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .contacts__info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: clamp(32px, 4vw, 48px);
+  }
+  .contacts__row h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--teal); margin-bottom: 6px; }
+  .contacts__row p { font-size: 17px; font-weight: 600; }
+  .contacts__row a { color: var(--text); text-decoration: none; }
+  .contacts__row a:hover { color: var(--indigo); }
+  .contacts__messengers { display: flex; flex-wrap: wrap; gap: 18px; }
+  .contacts__messengers a { color: var(--indigo); font-weight: 700; }
+
+  .contacts__branches {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .contacts__branch {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .contacts__branch-info { padding: 24px 24px 8px; }
+  .contacts__branch-tag {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--tint);
+    color: var(--teal);
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .contacts__branch-info h3 { font-size: 18px; margin-bottom: 16px; }
+  .contacts__map { min-height: 260px; }
+  .contacts__map iframe { width: 100%; height: 260px; border: 0; }
+  @media (max-width: 860px) {
+    .contacts__info { grid-template-columns: 1fr; gap: 18px; }
+    .contacts__branches { grid-template-columns: 1fr; }
+  }
+</style>

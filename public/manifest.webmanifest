@@ -1,0 +1,15 @@
+{
+  "name": "Интеллект — образовательный центр",
+  "short_name": "Интеллект",
+  "description": "Образовательный центр «Интеллект» в Ликино-Дулёво: 40 направлений для детей 2–17 лет.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFBF5",
+  "theme_color": "#312E81",
+  "lang": "ru",
+  "icons": [
+    { "src": "/brand/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/brand/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
