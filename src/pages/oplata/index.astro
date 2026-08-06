@@ -7,12 +7,12 @@ import BackToTop from '../../components/BackToTop.astro';
 import { site } from '../../content/site';
 
 const steps = [
-  { n: 1, title: 'Оставьте заявку или позвоните', text: 'Согласуйте с администратором направление, формат и количество занятий.' },
-  { n: 2, title: 'Получите ссылку на оплату', text: `Администратор пришлёт ссылку на оплату онлайн через ${site.paymentProvider} или в личном кабинете.` },
-  { n: 3, title: 'Оплатите картой', text: 'МИР, Visa, MasterCard или JCB. После оплаты вы получите подтверждение, а занятия можно будет посещать.' },
+  { n: 1, title: 'Получите персональную ссылку', text: 'У каждого ученика есть персональная ссылка на оплату. Её выдаёт администратор — либо можно получить самостоятельно в нашем боте MAX или Telegram.' },
+  { n: 2, title: 'Перейдите к оплате', text: `Откройте персональную ссылку — попадёте на защищённую страницу оплаты через ${site.paymentProvider}.` },
+  { n: 3, title: 'Оплатите картой', text: 'МИР, Visa, MasterCard или JCB. После успешной оплаты вы увидите подтверждение, а занятия можно будет посещать.' },
 ];
 ---
-<BaseLayout title="Оплата и возврат — Интеллект" description="Как оплатить занятия в образовательном центре «Интеллект»: онлайн-оплата, способы, условия возврата." path="/oplata">
+<BaseLayout title="Оплата и возврат — Интеллект" description="Как оплатить занятия в образовательном центре «Интеллект»: персональная ссылка, боты MAX и Telegram, онлайн-оплата, условия возврата." path="/oplata">
   <Header />
   <main id="main" class="section">
     <div class="container">
@@ -27,12 +27,38 @@ const steps = [
           <span class="ps__logo ps__logo--mc">MC</span>
           <span class="ps__logo ps__logo--jcb">JCB</span>
         </div>
-        <p style="margin-top:16px"><a class="btn btn--primary" href={site.paymentUrl} target="_blank" rel="noopener" data-goal="cta_pay">Перейти к оплате</a></p>
+
+        <h2>Как оплатить занятия</h2>
+        <p class="pay__intro">У каждого ученика есть <strong>персональная ссылка</strong> на оплату. Получить её можно двумя способами:</p>
+        <div class="bots">
+          <a class="bots__card" href={site.bots.max} target="_blank" rel="noopener" data-goal="bot_max">
+            <span class="bots__icon bots__icon--max" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </span>
+            <span class="bots__body">
+              <span class="bots__title">Бот в MAX</span>
+              <span class="bots__text">Получить ссылку на оплату в мессенджере MAX</span>
+            </span>
+            <span class="bots__arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="bots__card" href={site.bots.telegram} target="_blank" rel="noopener" data-goal="bot_tg">
+            <span class="bots__icon bots__icon--tg" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.6l-3.2 15.07c-.24 1.06-.87 1.32-1.76.82l-4.87-3.59-2.35 2.26c-.26.26-.48.48-.98.48l.35-4.95 9.03-8.16c.39-.35-.09-.55-.61-.2L6.61 13.2l-4.8-1.5c-1.04-.32-1.06-1.04.22-1.54l18.78-7.24c.87-.32 1.63.2 1.35 1.54z"/></svg>
+            </span>
+            <span class="bots__body">
+              <span class="bots__title">Бот в Telegram</span>
+              <span class="bots__text">Получить ссылку на оплату в Telegram</span>
+            </span>
+            <span class="bots__arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <p class="pay__alt">Либо попросите ссылку у администратора: <a href={site.phoneHref}>{site.phoneDisplay}</a>.</p>
 
         <h2>Как это работает</h2>
-        <ol>
+        <ol class="steps">
           {steps.map((s) => <li><strong>{s.n}. {s.title}.</strong> {s.text}</li>)}
         </ol>
+        <p class="pay__note">Реквизиты карты вводятся на стороне {site.paymentProvider} по защищённому соединению. Сайт «Интеллект» не получает, не хранит и не обрабатывает данные банковских карт.</p>
 
         <h2>Условия возврата</h2>
         <ul>
@@ -41,9 +67,6 @@ const steps = [
           <li>Стоимость фактически оказанных услуг (посещённых занятий) возврату не подлежит.</li>
           <li>Для оформления возврата напишите на {site.email} или позвоните {site.phoneDisplay}.</li>
         </ul>
-
-        <h2>Возврат после успешной оплаты</h2>
-        <p>Если вы оплатили занятия и хотите оформить возврат, свяжитесь с нами удобным способом — мы поможем оформить заявление.</p>
 
         <p><a href="/oferta">→ Публичная оферта</a> · <a href="/rekvizity">Реквизиты</a></p>
       </article>
@@ -57,3 +80,52 @@ const steps = [
     window.__metricaId = metricaId;
   </script>
 </BaseLayout>
+
+<style>
+  .pay__intro { margin-bottom: 18px; }
+  .pay__alt { margin-top: 16px; font-size: 14.5px; color: var(--muted); }
+  .pay__note {
+    font-size: 14px;
+    padding: 14px 16px;
+    background: var(--tint);
+    border-radius: var(--radius-sm);
+    color: var(--teal);
+    margin-top: 16px;
+  }
+
+  .bots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 8px 0 4px; }
+  .bots__card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .bots__card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: var(--teal-bright); }
+  .bots__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    color: #fff;
+  }
+  .bots__icon--max { background: var(--grad-teal); }
+  .bots__icon--tg { background: linear-gradient(135deg, #229ED9, #1c8bc4); }
+  .bots__body { display: flex; flex-direction: column; gap: 2px; flex-grow: 1; }
+  .bots__title { font-weight: 700; font-size: 16px; }
+  .bots__text { font-size: 13.5px; color: var(--muted); }
+  .bots__arrow { font-size: 18px; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+  @media (max-width: 620px) {
+    .bots { grid-template-columns: 1fr; }
+  }
+
+  .steps { padding-left: 22px; display: grid; gap: 8px; color: var(--muted); margin-bottom: 14px; }
+</style>

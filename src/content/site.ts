@@ -25,6 +25,14 @@ export const site = {
   vk: 'https://vk.com/intellect_deti',
   email: 'deti.intellect@gmail.com',
 
+  // Боты для получения персональной ссылки на оплату.
+  // У каждого ученика есть персональная ссылка — её выдаёт администратор, либо можно
+  // получить самостоятельно в нашем боте MAX или Telegram.
+  bots: {
+    max: 'https://max.ru/c/-71207716266030/AZ_WKqQ-WRs',
+    telegram: 'https://max.ru/c/-71207716266030/AZ_WKzFOK8w',
+  },
+
   // Два филиала в Ликино-Дулёво
   branches: [
     {
