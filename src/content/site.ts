@@ -21,7 +21,7 @@ export const site = {
   phoneHref: 'tel:+79800010525',
   phoneDigits: '79800010525',
   // Мессенджер MAX — ссылка на чат центра.
-  max: 'https://max.ru/c/-71207716266030/AZ_V2yLMGH8',
+  max: 'https://max.ru/u/f9LHodD0cOKPoqvGYdP-HD3MM-1M_8LWWn2lY6IBri7ktIMDHdfvJdGzgzQ',
   vk: 'https://vk.com/intellect_deti',
   email: 'deti.intellect@gmail.com',
 
