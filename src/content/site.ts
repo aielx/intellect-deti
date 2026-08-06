@@ -30,7 +30,7 @@ export const site = {
   // получить самостоятельно в нашем боте MAX или Telegram.
   bots: {
     max: 'https://max.ru/c/-71207716266030/AZ_WKqQ-WRs',
-    telegram: 'https://max.ru/c/-71207716266030/AZ_WKzFOK8w',
+    telegram: 'https://t.me/IntellectDetiBot',
   },
 
   // Два филиала в Ликино-Дулёво
