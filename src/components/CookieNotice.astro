@@ -1,10 +1,12 @@
 ---
 // Баннер согласия на файлы cookie / счётчики посещаемости.
+const base = import.meta.env.BASE_URL;
+const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
 ---
 <aside class="cookie" id="cookie-notice" hidden>
   <p class="cookie__text">
     Мы используем Яндекс.Метрику, чтобы сайт был удобнее. Продолжая, вы соглашаетесь с
-    <a href="/politika">политикой обработки данных</a>.
+    <a href={b('/politika')}>политикой обработки данных</a>.
   </p>
   <button class="btn btn--primary cookie__ok" type="button" data-cookie-ok>Хорошо</button>
 </aside>

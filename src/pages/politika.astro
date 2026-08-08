@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import StickyCta from '../components/StickyCta.astro';
 import BackToTop from '../components/BackToTop.astro';
 import { site } from '../content/site';
+const base = import.meta.env.BASE_URL;
+const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
 ---
 <BaseLayout title="Политика конфиденциальности — Интеллект" description="Политика обработки персональных данных образовательного центра «Интеллект»." path="/politika">
   <Header />

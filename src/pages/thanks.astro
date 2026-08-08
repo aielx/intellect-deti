@@ -4,6 +4,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StickyCta from '../components/StickyCta.astro';
 import { site } from '../content/site';
+const base = import.meta.env.BASE_URL;
+const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
 ---
 
 <BaseLayout
@@ -26,7 +28,7 @@ import { site } from '../content/site';
         Если возникнут вопросы — позвоните нам: <a href={site.phoneHref}>{site.phoneDisplay}</a>.
       </p>
       <p class="result__order" id="order-id" hidden></p>
-      <a class="btn btn--primary btn--lg" href="/">На главную</a>
+      <a class="btn btn--primary btn--lg" href={b("/")}>На главную</a>
     </div>
     <script>
       // Банк/CRM могут вернуть номер платежа в query-параметрах — покажем его.

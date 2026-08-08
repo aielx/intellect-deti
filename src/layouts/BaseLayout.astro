@@ -16,6 +16,11 @@ const { title, description, path = '/', jsonLdExtra } = Astro.props;
 const canonical = new URL(path, Astro.site ?? 'https://intellect-deti.ru').href;
 const ogImage = new URL('/images/og-image.jpg', Astro.site ?? 'https://intellect-deti.ru').href;
 
+// Префикс базового пути (например '/intellect/' для GitVerse Pages).
+// b('/path') → '/intellect/path'. Для корня возвращает base как есть.
+const base = import.meta.env.BASE_URL;
+const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
+
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': ['EducationalOrganization', 'LocalBusiness'],
@@ -81,14 +86,14 @@ const jsonLd = [orgSchema, ...(jsonLdExtra ? (Array.isArray(jsonLdExtra) ? jsonL
     <meta name="color-scheme" content="light" />
     <meta name="apple-mobile-web-app-title" content="Интеллект" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/brand/icon-192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/brand/icon-512.png" />
-    <link rel="apple-touch-icon" href="/brand/apple-touch-icon-180.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
-    <link rel="preload" href="/fonts/onest-cyrillic-700-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/onest-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" type="image/svg+xml" href={b('/brand/favicon.svg')} />
+    <link rel="icon" type="image/png" sizes="192x192" href={b('/brand/icon-192.png')} />
+    <link rel="icon" type="image/png" sizes="512x512" href={b('/brand/icon-512.png')} />
+    <link rel="apple-touch-icon" href={b('/brand/apple-touch-icon-180.png')} />
+    <link rel="manifest" href={b('/manifest.webmanifest')} />
+    <link rel="sitemap" type="application/xml" href={b('/sitemap-index.xml')} />
+    <link rel="preload" href={b('/fonts/onest-cyrillic-700-normal.woff2')} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={b('/fonts/onest-cyrillic-800-normal.woff2')} as="font" type="font/woff2" crossorigin />
 
     {site.metricaId && <link rel="preconnect" href="https://mc.yandex.ru" crossorigin />}
 
@@ -113,7 +118,7 @@ const jsonLd = [orgSchema, ...(jsonLdExtra ? (Array.isArray(jsonLdExtra) ? jsonL
     <a class="skip-link" href="#main">Перейти к содержимому</a>
     <slot />
     <CookieNotice />
-    <script src="/js/main.js" type="module"></script>
+    <script src={b('/js/main.js')} type="module"></script>
     <noscript>
       <style>
         /* Без JS раскрываем мобильное меню (бургер неработоспособен) */

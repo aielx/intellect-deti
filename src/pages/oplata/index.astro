@@ -11,6 +11,8 @@ const steps = [
   { n: 2, title: 'Перейдите к оплате', text: `Откройте персональную ссылку — попадёте на защищённую страницу оплаты через ${site.paymentProvider}.` },
   { n: 3, title: 'Оплатите картой', text: 'МИР, Visa, MasterCard или JCB. После успешной оплаты вы увидите подтверждение, а занятия можно будет посещать.' },
 ];
+const base = import.meta.env.BASE_URL;
+const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
 ---
 <BaseLayout title="Оплата и возврат — Интеллект" description="Как оплатить занятия в образовательном центре «Интеллект»: персональная ссылка, боты MAX и Telegram, онлайн-оплата, условия возврата." path="/oplata">
   <Header />
@@ -68,7 +70,7 @@ const steps = [
           <li>Для оформления возврата напишите на {site.email} или позвоните {site.phoneDisplay}.</li>
         </ul>
 
-        <p><a href="/oferta">→ Публичная оферта</a> · <a href="/rekvizity">Реквизиты</a></p>
+        <p><a href={b("/oferta")}>→ Публичная оферта</a> · <a href={b("/rekvizity")}>Реквизиты</a></p>
       </article>
     </div>
   </main>

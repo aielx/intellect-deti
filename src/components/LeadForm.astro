@@ -1,6 +1,9 @@
 ---
 import { directions } from '../content/directions';
 import { site } from '../content/site';
+
+const base = import.meta.env.BASE_URL;
+const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
 ---
 <dialog class="lead" id="lead-dialog" aria-labelledby="lead-title">
   <form class="lead__form" id="lead-form" method="dialog" novalidate>
@@ -39,7 +42,7 @@ import { site } from '../content/site';
     </div>
     <label class="consent">
       <input type="checkbox" name="consent" required />
-      <span>Соглашаюсь с <a href="/politika">политикой обработки персональных данных</a> и <a href="/oferta">офертой</a></span>
+      <span>Соглашаюсь с <a href={b('/politika')}>политикой обработки персональных данных</a> и <a href={b('/oferta')}>офертой</a></span>
     </label>
     <button class="btn btn--primary btn--lg lead__submit" type="submit" data-goal="lead_submit">Отправить заявку</button>
     <div class="form-success" role="status">

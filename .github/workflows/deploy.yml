@@ -24,6 +24,10 @@ jobs:
         run: npm ci
 
       - name: Build with Astro
+        # GitVerse публикует сайт в подкаталоге /intellect/, поэтому base = /intellect/.
+        # SITE_URL — кастомный домен (canonical/SEO), SITE_BASE — префикс путей на GitVerse Pages.
+        env:
+          SITE_BASE: '/intellect/'
         run: npm run build
 
       # Прикрепляем артефакт сборки (Astro собирает в dist/)

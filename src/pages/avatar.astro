@@ -20,6 +20,10 @@ const photos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1
 const galleryPreview = [39, 45, 21, 78, 56, 62, 9, 20]; // избранные для сетки превью
 const heroPhoto = 73;
 
+// Префикс базового пути для public-ресурсов (фото, видео).
+const base = import.meta.env.BASE_URL;
+const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
+
 const features = [
   { icon: '🎪', title: 'Батутный лабиринт', desc: 'Безопасная зона для активных игр и развития координации. Дети прыгают и веселятся без ограничений!' },
   { icon: '⚽', title: 'Настольный футбол', desc: 'Увлекательная игра для командного досуга. Отлично подходит для соревнований между гостями.' },
@@ -53,7 +57,7 @@ const steps = [
           </div>
         </div>
         <div class="av-hero__media">
-          <img src={`/images/avatar/${heroPhoto}.jpg`} alt="Игровая комната «Аватар»" class="av-hero__img" width="720" height="540" loading="eager" fetchpriority="high" />
+          <img src={b('/images/avatar/' + heroPhoto + '.jpg')} alt="Игровая комната «Аватар»" class="av-hero__img" width="720" height="540" loading="eager" fetchpriority="high" />
         </div>
       </div>
     </section>
@@ -101,7 +105,7 @@ const steps = [
         <div class="av-gallery__grid">
           {galleryPreview.map((n) => (
             <button class="av-gallery__item" type="button" data-gallery-open={n} aria-label={`Фото ${n} — открыть в полный размер`}>
-              <img src={`/images/avatar/${n}.jpg`} alt={`Игровая комната «Аватар», фото ${n}`} width="400" height="300" loading="lazy" />
+              <img src={b('/images/avatar/' + n + '.jpg')} alt={'Игровая комната «Аватар», фото ' + n} width="400" height="300" loading="lazy" />
             </button>
           ))}
         </div>
@@ -120,9 +124,9 @@ const steps = [
           <p class="lead">Посмотрите, как весело проводят время дети в нашей игровой комнате.</p>
         </div>
         <div class="av-video">
-          <video controls preload="metadata" poster={`/images/avatar/${heroPhoto}.jpg`}>
-            <source src="/video/Avatar.mp4" type="video/mp4" />
-            Ваш браузер не поддерживает видео. <a href="/video/Avatar.mp4">Скачать видео</a>.
+          <video controls preload="metadata" poster={b('/images/avatar/' + heroPhoto + '.jpg')}>
+            <source src={b("/video/Avatar.mp4")} type="video/mp4" />
+            Ваш браузер не поддерживает видео. <a href={b("/video/Avatar.mp4")}>Скачать видео</a>.
           </video>
         </div>
       </div>
@@ -238,10 +242,11 @@ const steps = [
     <div class="lightbox__counter" id="lightbox-counter"></div>
   </div>
 
-  <script define:vars={{ galleryPhotos: photos, leadWebhook: site.leadWebhook, metricaId: site.metricaId }}>
+  <script define:vars={{ galleryPhotos: photos, leadWebhook: site.leadWebhook, metricaId: site.metricaId, assetBase: base.replace(/\/$/, '') }}>
     window.__leadWebhook = leadWebhook;
     window.__metricaId = metricaId;
     window.__galleryPhotos = galleryPhotos;
+    window.__assetBase = assetBase;
   </script>
   <script type="module">
     // ===== Lightbox для галереи «Аватар» =====
@@ -253,7 +258,7 @@ const steps = [
 
     const show = (n) => {
       idx = (n + photos.length) % photos.length;
-      lightboxImg.src = `/images/avatar/${photos[idx]}.jpg`;
+      lightboxImg.src = `${window.__assetBase || ''}/images/avatar/${photos[idx]}.jpg`;
       lightboxImg.alt = `Фото ${photos[idx]} — игровая комната «Аватар»`;
       counter.textContent = `${idx + 1} / ${photos.length}`;
     };

@@ -7,6 +7,8 @@ import BackToTop from '../components/BackToTop.astro';
 import { site } from '../content/site';
 
 const { entity, inn, ogrnip, legalAddress, checkingAccount, bankName, bik, corrAccount } = site.legal;
+const base = import.meta.env.BASE_URL;
+const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
 ---
 <BaseLayout title="Реквизиты — Интеллект" description="Реквизиты образовательного центра «Интеллект» для оплаты и документооборота." path="/rekvizity">
   <Header />
@@ -32,7 +34,7 @@ const { entity, inn, ogrnip, legalAddress, checkingAccount, bankName, bik, corrA
           <p><strong>{b.name}.</strong> {b.address}</p>
         ))}
 
-        <p style="margin-top:24px"><a href="/oplata">→ Как оплатить и вернуть</a> · <a href="/oferta">Публичная оферта</a></p>
+        <p style="margin-top:24px"><a href={b("/oplata")}>→ Как оплатить и вернуть</a> · <a href={b("/oferta")}>Публичная оферта</a></p>
       </article>
     </div>
   </main>

@@ -1,15 +1,19 @@
 ---
 import { site } from '../content/site';
 
+// Префикс базового пути + определение главной страницы.
+const base = import.meta.env.BASE_URL;
+const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
+const isHome = Astro.url.pathname.replace(/\/$/, '') === base.replace(/\/$/, '');
+
 // На главной — чистые якоря (плавный скролл без перезагрузки).
-// На остальных страницах — ведём на главную с якорем (/#prices).
-const isHome = Astro.url.pathname === '/';
-const prefix = isHome ? '' : '/';
+// На остальных страницах — ведём на главную с якорем (b('/#prices)).
+const prefix = isHome ? '' : b('');
 
 const nav = [
   { href: `${prefix}#directions`, label: 'Направления' },
-  { href: '/avatar', label: 'Аватар' },
-  { href: '/mango', label: 'Танцы' },
+  { href: b('/avatar'), label: 'Аватар' },
+  { href: b('/mango'), label: 'Танцы' },
   { href: `${prefix}#reviews`, label: 'Отзывы' },
   { href: `${prefix}#prices`, label: 'Цены' },
   { href: `${prefix}#contacts`, label: 'Контакты' },
@@ -18,8 +22,8 @@ const nav = [
 
 <header class="header" id="top">
   <div class="container header__inner">
-    <a href="/" class="header__logo" aria-label="Интеллект — на главную">
-      <img src="/brand/logo.svg" alt="Интеллект — образовательный центр" width="204" height="54" />
+    <a href={b('/')} class="header__logo" aria-label="Интеллект — на главную">
+      <img src={b('/brand/logo.svg')} alt="Интеллект — образовательный центр" width="204" height="54" />
     </a>
 
     <nav class="header__nav" aria-label="Основная навигация">

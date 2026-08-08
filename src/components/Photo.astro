@@ -30,15 +30,21 @@ const {
 
 const meta = photos.find((p) => p.name === name);
 if (!meta) throw new Error(`Unknown photo: ${name}`);
-const fallback = `/images/${name}-${meta.widths[meta.widths.length - 1]}.webp`;
+
+// Префикс базового пути (например '/intellect/' для GitVerse Pages).
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const fallback = `${base}/images/${name}-${meta.widths[meta.widths.length - 1]}.webp`;
+// Оборачиваем каждый URL в srcset базовым путём.
+const prefixedSrcset = (name: string, ext: 'avif' | 'webp', widths: number[]) =>
+  srcset(name, ext, widths).split(', ').map((s) => `${base}${s}`).join(', ');
 ---
 
 <picture
   class:list={['photo', cls]}
   style={`--ratio: ${ratio}; --ratio-m: ${ratioMobile ?? ratio};`}
 >
-  <source type="image/avif" srcset={srcset(name, 'avif', meta.widths)} sizes={sizes} />
-  <source type="image/webp" srcset={srcset(name, 'webp', meta.widths)} sizes={sizes} />
+  <source type="image/avif" srcset={prefixedSrcset(name, 'avif', meta.widths)} sizes={sizes} />
+  <source type="image/webp" srcset={prefixedSrcset(name, 'webp', meta.widths)} sizes={sizes} />
   <img
     src={fallback}
     alt={alt ?? meta.alt}
