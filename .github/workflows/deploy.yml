@@ -1,56 +1,40 @@
-# Сборка и публикация сайта «Интеллект» на GitHub Pages.
-# Настройка репозитория: Settings → Pages → Source = "GitHub Actions".
-# Кастомный домен intellect-deti.ru подключается в Settings → Pages → Custom domain
-# (запись A/CNAME настраивается у регистратора домена; включить Enforce HTTPS).
-name: Deploy to GitHub Pages
+# Сборка и публикация сайта «Интеллект» на GitVerse Pages.
+# Настройка репозитория: Settings → Pages → Source = «Воркфлоу» (Workflow).
+# CI/CD: «Use configuration from .github/workflows».
+name: Deploy to GitVerse Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Не гонять параллельные деплои — новый запуск отменяет предыдущий.
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
+# Один job: сборка + деплой подряд (act_runner в GitVerse надёжнее с одним job).
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
+          node-version: "22"
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build with Astro
-        # SITE_URL/SITE_BASE не заданы → дефолт https://intellect-deti.ru + canonical для custom domain.
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
+      # GitVerse upload-pages-artifact ожидает каталог _site.
+      - name: Stage site to _site
+        run: cp -r dist _site
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Upload pages artifact
+        uses: gitverse/upload-pages-artifact@v1.0.0
+        with:
+          path: _site
+
+      - name: Deploy to GitVerse Pages
+        uses: gitverse/deploy-pages@v1.0.0
