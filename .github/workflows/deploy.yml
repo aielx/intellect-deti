@@ -1,25 +1,24 @@
 # Сборка и публикация сайта «Интеллект» на GitVerse Pages.
 # Настройка репозитория: Settings → Pages → Source = «Воркфлоу» (Workflow).
 # CI/CD: «Use configuration from .github/workflows».
-name: Deploy to GitVerse Pages
+name: GitVerse Pages Static
 
 on:
   push:
-    branches: [main, master]
   workflow_dispatch:
 
-# Один job: сборка + деплой подряд (act_runner в GitVerse надёжнее с одним job).
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install dependencies
         run: npm ci
@@ -27,14 +26,28 @@ jobs:
       - name: Build with Astro
         run: npm run build
 
-      # GitVerse upload-pages-artifact ожидает каталог _site.
-      - name: Stage site to _site
-        run: cp -r dist _site
-
-      - name: Upload pages artifact
-        uses: gitverse/upload-pages-artifact@v1.0.0
+      # Прикрепляем артефакт сборки (Astro собирает в dist/)
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          path: _site
+          path: 'dist'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      # Go необходим для выполнения deploy-pages
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '>=1.23'
 
       - name: Deploy to GitVerse Pages
-        uses: gitverse/deploy-pages@v1.0.0
+        id: deployment
+        uses: actions/deploy-pages@v1
+        with:
+          artifact_name: gitverse-pages
+
+      - name: Print deploy URL
+        run: echo "🌐 page_url = ${{ steps.deployment.outputs.page_url }}"
