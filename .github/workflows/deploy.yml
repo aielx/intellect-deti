@@ -1,11 +1,14 @@
-# Сборка и публикация сайта «Интеллект» на GitVerse Pages.
-# Настройка репозитория: Settings → Pages → Source = «Воркфлоу» (Workflow).
-# CI/CD: «Use configuration from .github/workflows».
-name: GitVerse Pages Static
+# Сборка и публикация сайта «Интеллект» на GitHub Pages.
+# Настройка репозитория: Settings → Pages → Source = «GitHub Actions».
+name: GitHub Pages
 
 on:
   push:
+    branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -24,15 +27,12 @@ jobs:
         run: npm ci
 
       - name: Build with Astro
-        # GitVerse публикует сайт в подкаталоге /intellect/, поэтому base = /intellect/.
-        # SITE_URL — кастомный домен (canonical/SEO), SITE_BASE — префикс путей на GitVerse Pages.
-        env:
-          SITE_BASE: '/intellect/'
+        # Кастомный домен intellect-deti.ru: base = '/' (значение по умолчанию в astro.config.mjs).
         run: npm run build
 
-      # Прикрепляем артефакт сборки (Astro собирает в dist/)
+      # Прикрепляем артефакт сборки (Astro собирает в dist/).
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: 'dist'
 
@@ -40,18 +40,18 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
 
-    steps:
-      # Go необходим для выполнения deploy-pages
-      - name: Setup Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: '>=1.23'
+    permissions:
+      pages: write
+      id-token: write
 
-      - name: Deploy to GitVerse Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
-        with:
-          artifact_name: gitverse-pages
+        uses: actions/deploy-pages@v4
 
       - name: Print deploy URL
         run: echo "🌐 page_url = ${{ steps.deployment.outputs.page_url }}"
