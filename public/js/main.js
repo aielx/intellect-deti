@@ -108,6 +108,8 @@ function wireForm(form, dialog) {
   const submitBtn = form.querySelector('[type="submit"]');
   const success = form.querySelector('.form-success');
   const errorBox = form.querySelector('.form-error');
+  const btnLabel = submitBtn ? submitBtn.innerHTML : '';
+  const inputs = Array.from(form.querySelectorAll('input, select, textarea'));
 
   const validateForm = () => {
     let ok = true;
@@ -122,13 +124,35 @@ function wireForm(form, dialog) {
 
   const showError = (show = true) => errorBox?.classList.toggle('is-visible', show);
 
+  // Визуальное состояние отправки: блокировка + текст + спиннер (через .is-loading).
+  const setLoading = (loading) => {
+    if (!submitBtn) return;
+    submitBtn.disabled = loading;
+    submitBtn.classList.toggle('is-loading', loading);
+    submitBtn.setAttribute('aria-busy', String(loading));
+    submitBtn.innerHTML = loading ? submitBtn.dataset.loadingText || 'Отправляем…' : btnLabel;
+  };
+
+  // Возврат формы в исходное состояние (используется при повторном открытии).
+  const reset = () => {
+    form.reset();
+    setLoading(false);
+    if (submitBtn) submitBtn.hidden = false;
+    inputs.forEach((el) => (el.disabled = false));
+    showError(false);
+    success?.classList.remove('is-visible');
+    form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+  };
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     showError(false);
     const data = Object.fromEntries(new FormData(form).entries());
     data.page = location.href;
-    submitBtn.disabled = true;
+    setLoading(true);
+    // Блокируем поля на время отправки, чтобы данные не менялись «в полёте».
+    inputs.forEach((el) => (el.disabled = true));
     try {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 12000);
@@ -152,16 +176,20 @@ function wireForm(form, dialog) {
         throw fetchErr;
       }
       reachGoal('lead_success');
+      // Успех: убираем индикатор загрузки, прячем кнопку — фокус на сообщении.
+      submitBtn?.classList.remove('is-loading');
+      submitBtn?.removeAttribute('aria-busy');
+      if (submitBtn) submitBtn.hidden = true;
       success?.classList.add('is-visible');
-      form.querySelectorAll('input, select, [type="submit"]').forEach((el) => (el.disabled = true));
       setTimeout(() => dialog?.close(), 2600);
     } catch (err) {
       console.error('Ошибка отправки заявки', err);
+      setLoading(false);
+      inputs.forEach((el) => (el.disabled = false));
       showError(true);
-      submitBtn.disabled = false;
     }
   });
-  return { directionSel };
+  return { directionSel, reset };
 }
 
 const leadDialog = document.getElementById('lead-dialog');
@@ -171,6 +199,7 @@ let leadWired = leadForm && leadDialog ? wireForm(leadForm, leadDialog) : null;
 // Кнопки, открывающие главную форму заявки
 document.querySelectorAll('[data-open-lead]').forEach((btn) => {
   btn.addEventListener('click', () => {
+    leadWired?.reset?.();
     if (btn.dataset.direction && leadWired?.directionSel) leadWired.directionSel.value = btn.dataset.direction;
     leadDialog?.showModal();
   });

@@ -44,7 +44,7 @@ const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
       <input type="checkbox" name="consent" required />
       <span>Соглашаюсь с <a href={b('/politika')}>политикой обработки персональных данных</a> и <a href={b('/oferta')}>офертой</a></span>
     </label>
-    <button class="btn btn--primary btn--lg lead__submit" type="submit" data-goal="lead_submit">Отправить заявку</button>
+    <button class="btn btn--primary btn--lg lead__submit" type="submit" data-goal="lead_submit" data-loading-text="Отправляем…" data-default-text="Отправить заявку">Отправить заявку</button>
     <div class="form-success" role="status">
       Заявка отправлена! Мы перезвоним вам в ближайшее время.
     </div>

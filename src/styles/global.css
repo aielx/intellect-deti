@@ -209,6 +209,23 @@ h3 { font-size: 21px; font-weight: 700; }
 .btn--ghost { color: var(--indigo); }
 .btn--lg { padding: 17px 34px; font-size: 17px; }
 
+/* Состояние отправки: спиннер рядом с текстом, курсор ожидания, без hover-эффектов */
+.btn.is-loading { cursor: progress; transform: none !important; box-shadow: 0 10px 24px -10px rgb(109 40 217 / 0.55) !important; opacity: 0.9; }
+.btn.is-loading::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid rgb(255 255 255 / 0.45);
+  border-top-color: #fff;
+  animation: btn-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .btn.is-loading::before { animation-duration: 1.5s; }
+}
+
 /* ===== Карточки и бейджи ===== */
 .card {
   background: var(--surface);
