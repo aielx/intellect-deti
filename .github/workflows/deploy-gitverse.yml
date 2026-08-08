@@ -1,0 +1,38 @@
+# Сборка и публикация сайта «Интеллект» на GitVerse Pages.
+# Настройка репозитория: Settings → Pages → Source = «Воркфлоу».
+# Использует официальные actions GitVerse (gitverse/upload-pages-artifact, gitverse/deploy-pages).
+name: Deploy to GitVerse Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with Astro
+        run: npm run build
+
+      - name: Upload pages artifact
+        uses: gitverse/upload-pages-artifact@v1.0.0
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: gitverse/deploy-pages@v1.0.0
