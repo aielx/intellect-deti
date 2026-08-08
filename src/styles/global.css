@@ -107,6 +107,10 @@
 /* ===== Reset ===== */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
+/* Гарантируем, что [hidden] убирает элемент из布局 и из кликов всегда:
+   иначе любое явное display (flex/grid/block) в компонентах перекрывает
+   стандартное hidden:none, и невидимый элемент перехватывает клики. */
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: 92px; }
 body {
   font-family: var(--font);

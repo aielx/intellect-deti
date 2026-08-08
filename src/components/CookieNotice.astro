@@ -12,6 +12,8 @@ const b = (p: string) => `${base.replace(/\/$/, '')}${p}`;
 </aside>
 
 <style>
+  /* [hidden] обрабатывается глобально (display:none !important), поэтому здесь
+     не дублируем — иначе невидимый баннер перехватывал клики по нижней плашке. */
   .cookie {
     position: fixed;
     left: 16px;
