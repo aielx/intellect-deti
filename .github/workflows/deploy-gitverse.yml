@@ -26,10 +26,15 @@ jobs:
       - name: Build with Astro
         run: npm run build
 
+      # GitVerse upload-pages-artifact ожидает каталог _site (как и GitHub Pages).
+      # Копируем туда результат сборки Astro (dist).
+      - name: Stage site to _site
+        run: cp -r dist _site
+
       - name: Upload pages artifact
         uses: gitverse/upload-pages-artifact@v1.0.0
         with:
-          path: dist
+          path: _site
 
   deploy:
     needs: build
