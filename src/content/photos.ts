@@ -342,6 +342,18 @@ export const photos: PhotoMeta[] = [
       1024,
       1600
     ]
+  },
+  {
+    "name": "gymnastics-class",
+    "category": "sport",
+    "alt": "Девочка на занятии художественной гимнастикой",
+    "width": 2560,
+    "height": 1920,
+    "widths": [
+      640,
+      1024,
+      1600
+    ]
   }
 ];
 

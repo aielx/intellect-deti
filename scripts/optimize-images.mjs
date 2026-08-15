@@ -39,6 +39,7 @@ const PHOTOS = [
   ['psixolo', 'psychologist-session', 'psychologist', 'Детский психолог на индивидуальном занятии'],
   ['dance', 'dance-class', 'dance', 'Дети на занятии танцами в студии ManGO'],
   ['podgoto', 'school-prep-class', 'school', 'Дети на занятии по подготовке к школе'],
+  ['hudgim', 'gymnastics-class', 'sport', 'Девочка на занятии художественной гимнастикой'],
 ];
 
 // Собираем список реальных файлов и индексируем по префиксу для устойчивого сопоставления.
